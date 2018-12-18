@@ -12,12 +12,20 @@ class Users extends Component {
 
   componentWillMount() {
     axios
-      .get("https://jsonplaceholder.typicode.com/users",
-      {headers: {'Access-Control-Allow-Origin': '*'}})
+      .get("https://jsonplaceholder.typicode.com/users", {
+        headers: { "Access-Control-Allow-Origin": "*" }
+      })
       .then(data => {
-        console.log(data);
-
         this.setState({ usersList: data.data });
+
+        /**
+         * set
+         * a
+         * start
+         * conversation
+         * */
+
+        this.props.getConversation(1, "Leanne Graham");
       })
       .catch(err => console.log(err));
   }
@@ -50,10 +58,11 @@ class Users extends Component {
             YOU
             <div id="personal-settings">
               <button
-                className="float-right btn bg-light"
+                className="float-right btn"
                 style={{
                   fontSize: "1.8rem",
                   color: "grey",
+                  backgroundColor: "rgb(247, 246, 246)",
                   position: "relative",
                   top: "0rem",
                   marginLeft: "1.6rem"
@@ -62,26 +71,35 @@ class Users extends Component {
                 ...
               </button>
               <button
-                className="float-right btn bg-light"
+                className="float-right btn"
                 style={{
                   fontSize: "1.8rem",
                   color: "grey",
+                  backgroundColor: "rgb(247, 246, 246)",
                   position: "relative",
                   top: "0rem"
                 }}
               >
-                <div style={{
-                  fontSize: "1.8rem",
-                  color: "grey",
-                  position: "relative",
-                  top: "0.51rem"
-                }}> &#128929;</div>
+                <div
+                  style={{
+                    fontSize: "1.8rem",
+                    color: "grey",
+                    position: "relative",
+                    top: "0.51rem"
+                  }}
+                >
+                  {" "}
+                  &#128929;
+                </div>
               </button>
             </div>
           </div>
         </div>
 
-        <User getConversation={this.props.getConversation} usersList={this.state.usersList} />
+        <User
+          getConversation={this.props.getConversation}
+          usersList={this.state.usersList}
+        />
       </div>
     );
   }

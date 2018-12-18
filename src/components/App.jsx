@@ -13,16 +13,24 @@ class App extends Component {
     };
   }
 
+
+
+
   getConversation = (id, name) => {
     console.log("render conversation with" + id, name);
-    axios.get(`http://localhost:3001/database/posts/${id}`).then(data => {
-      console.log(data);
+    axios.get(`http://localhost:3001/database/posts/${id}`)
+    .then(data => {
+      console.log(data)
       this.setState({
         conversation: data.data,
         friendName: name
       });
-    });
+    })
+    .catch(err=>console.log(err))
+
   };
+
+
 
   render() {
     return (
@@ -33,6 +41,7 @@ class App extends Component {
           <PostsBoard
             conversation={this.state.conversation}
             friendName={this.state.friendName}
+            getConversation = {this.getConversation}
           />
         </div>
       </div>
@@ -41,3 +50,4 @@ class App extends Component {
 }
 
 export default App;
+         

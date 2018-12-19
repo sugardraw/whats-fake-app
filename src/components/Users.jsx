@@ -97,8 +97,10 @@ class Users extends Component {
         </div>
 
         <User
+          lastMsg={this.props.lastMsg}
           getConversation={this.props.getConversation}
           usersList={this.state.usersList}
+          conversation={this.props.conversation}
         />
       </div>
     );

@@ -8,11 +8,11 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      lastMsg:null,
       conversation: [],
       friendName: ""
     };
   }
-
 
 
 
@@ -21,9 +21,19 @@ class App extends Component {
     axios.get(`http://localhost:3001/database/posts/${id}`)
     .then(data => {
       console.log(data)
+      let lastMsg = null;
+      for (let i in data.data) {
+        if (!data.data[i].hasOwnProperty("origin")) {
+         
+  
+          lastMsg = data.data[i];
+        }
+      }
+      console.log('#####',lastMsg)
       this.setState({
         conversation: data.data,
-        friendName: name
+        friendName: name,
+        lastMsg: lastMsg
       });
     })
     .catch(err=>console.log(err))
@@ -37,7 +47,7 @@ class App extends Component {
       <div className="container-fluid m-0 p-0">
         <Header />
         <div className="row">
-          <Users getConversation={this.getConversation} />
+          <Users getConversation={this.getConversation} conversation={this.state.conversation} lastMsg={this.state.lastMsg}/>
           <PostsBoard
             conversation={this.state.conversation}
             friendName={this.state.friendName}

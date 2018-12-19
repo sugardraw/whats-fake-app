@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import $ from 'jquery'
 
 class PostsBoard extends Component {
   constructor() {
@@ -18,8 +19,9 @@ class PostsBoard extends Component {
     console.log(firstCharts);
 
     const msg = {
-      origin: "YOU",
+      time: Date.now(),
       userId: this.props.conversation[0].userId,
+      origin: "YOU",
       title: firstCharts,
       body: e.target.value
     };
@@ -37,11 +39,12 @@ class PostsBoard extends Component {
           this.state.msg.title
         }&body=${this.state.msg.body}&origin=${this.state.msg.origin}&userId=${
           this.state.msg.userId
-        }`,
+        }&time=${this.state.msg.time}`,
         {
           params: {
+            time: Date.now(),
             userId: this.state.msg.userId,
-            id:null,
+            id: null,
             origin: "YOU",
             title: this.state.msg.title,
             body: this.state.msg.body
@@ -54,6 +57,9 @@ class PostsBoard extends Component {
           this.state.msg.userId,
           this.props.friendName
         );
+
+        $('html,body').animate({scrollTop: document.body.scrollHeight},"slow");
+
       })
       .catch(err => console.log(err));
 
@@ -105,10 +111,11 @@ class PostsBoard extends Component {
           ) : null}
         </div>
 
-        {this.props.conversation.map(conversation => {
+        {this.props.conversation.map((conversation, i) => {
           if (conversation.origin === "YOU") {
             return (
               <div
+                key={i}
                 id="talk-bubble-1"
                 className="card position-relative my-3 shadow"
                 style={{
@@ -137,6 +144,7 @@ class PostsBoard extends Component {
           } else {
             return (
               <div
+                key={i}
                 id="talk-bubble-2"
                 className="card position-relative my-3 shadow"
                 style={{
@@ -149,6 +157,7 @@ class PostsBoard extends Component {
                   <h5 className="card-title mb-2 text-muted">
                     {this.props.friendName}
                   </h5>
+                  <h6 className="text-muted">{conversation.title}</h6>
 
                   <p className="card-text">{conversation.body}</p>
 

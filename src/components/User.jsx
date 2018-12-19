@@ -2,23 +2,20 @@ import React, { Component } from "react";
 import axios from "axios";
 
 class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lastMsg: null
+    };
+  }
+
+
+
   openConversation = e => {
+
     console.log(`open conversation with: ${e.target.dataset.name}`);
     this.props.getConversation(e.target.dataset.id, e.target.dataset.name);
   };
-
-  /**
-   * trying to get all messages
-   *    componentDidUpdate =()=>{
-
-       axios.get(`http://localhost:3001/database/posts/getAllMsg`)
-     .then(data => {
-         console.log(data)
-       })
-       .catch(err=>console.log(err))
-     }
-   * 
-   */
 
   render() {
     return (
@@ -52,7 +49,11 @@ class User extends Component {
                 }}
                 className="float-left px-3 py-1"
               >
-                Lorem ipsum dolor sit amet...
+                {this.props.lastMsg &&
+                  user.id === this.props.lastMsg.userId && (
+                    <div>{this.props.lastMsg.title}</div>
+                  )}
+                ...
               </div>
             </div>
           </div>

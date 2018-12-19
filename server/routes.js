@@ -25,6 +25,7 @@ route.get("/database/posts/:id", (req, res, next) => {
     for (let index in posts) {
       if (Number(posts[index].userId) === Number(req.params.id)) {
         const message = {
+          time:posts[index].time,
           userId: posts[index].userId,
           id: posts[index].id,
           origin: posts[index].origin,
@@ -40,10 +41,11 @@ route.get("/database/posts/:id", (req, res, next) => {
   });
 });
 
-route.get("/database/posts/getAllMsg", (req, res) => {
-  res.send('POST request to the homepage');
-
+route.get("/database/posts/", (req, res) => {
+  let allMsgs = fetchMsgs();
+  res.send(allMsgs);
 });
+
 
 
 route.post("/database/posts/addMsg", (req, res) => {
